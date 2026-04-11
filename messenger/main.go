@@ -16,20 +16,20 @@ type Node struct {
 }
 
 type Message struct {
-	Src  string                 `json:"src"`
-	Dest string                 `json:"dest"`
-	Body map[string]interface{} `json:"body"`
+	Src  string         `json:"src"`
+	Dest string         `json:"dest"`
+	Body map[string]any `json:"body"`
 }
 
 type Body struct {
-	Type      string                 `json:"type"`
-	MsgID     interface{}            `json:"msg_id,omitempty"`
-	InReplyTo interface{}            `json:"in_reply_to,omitempty"`
-	Extra     map[string]interface{} `json:"-"`
+	Type      string         `json:"type"`
+	MsgID     any            `json:"msg_id,omitempty"`
+	InReplyTo any            `json:"in_reply_to,omitempty"`
+	Extra     map[string]any `json:"-"`
 }
 
 func (b Body) MarshalJSON() ([]byte, error) {
-	m := make(map[string]interface{})
+	m := make(map[string]any)
 	m["type"] = b.Type
 	if b.InReplyTo != nil {
 		m["in_reply_to"] = b.InReplyTo
@@ -41,11 +41,11 @@ func (b Body) MarshalJSON() ([]byte, error) {
 	return json.Marshal(m)
 }
 
-func (n *Node) Send(dest string, body map[string]interface{}) {
+func (n *Node) Send(dest string, body map[string]any) {
 	n.mu.Lock()
 	defer n.mu.Unlock()
 
-	extra := make(map[string]interface{})
+	extra := make(map[string]any)
 	for k, v := range body {
 		if k != "type" {
 			extra[k] = v
@@ -78,7 +78,7 @@ func (n *Node) Send(dest string, body map[string]interface{}) {
 	n.NextMsgID++
 }
 
-func (n *Node) Reply(request Message, body map[string]interface{}) {
+func (n *Node) Reply(request Message, body map[string]any) {
 	body["in_reply_to"] = request.Body["msg_id"]
 	n.Send(request.Src, body)
 }
@@ -97,12 +97,12 @@ func main() {
 		msgType, _ := msg.Body["type"].(string)
 		if msgType == "init" {
 			node.NodeID = msg.Body["node_id"].(string)
-			ids := msg.Body["node_ids"].([]interface{})
+			ids := msg.Body["node_ids"].([]any)
 			for _, id := range ids {
 				node.NodeIDs = append(node.NodeIDs, id.(string))
 			}
 
-			resp := make(map[string]interface{})
+			resp := make(map[string]any)
 			resp["type"] = "init_ok"
 			node.Reply(msg, resp)
 		}
