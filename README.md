@@ -1,34 +1,40 @@
 # Distributed Systems from Scratch
 
-Topics covering distributed systems from foundations to advanced topics.
+This repository tracks the exercises from the Build Distributed Systems from Scratch course.
 
-## 1. Foundations
-Deal with core concepts and RPC fundamentals
+## Course Index
 
-1. The Messenger
-2. The Identifier
-3. The Gossiper
+### Foundations
+Core message passing, IDs, and broadcast primitives.
 
-## 2. Consensus 
-Agreement protocols and distributed coordination
+- [Messenger](./messenger)
+- [Identifier](./identifier)
+- [Gossipper](./gossipper)
 
-1. The Counter
-2. The Elector
-3. The Consensus
-4. The Store
+### Consensus
+State agreement, leader election, and replicated storage.
 
-## 3. Advanced 
-Complex distributed algorithms and paradigms
+- [Counter](./counter)
+- [Elector](./elector)
+- [Consensus](./consensus)
+- [Store](./store)
 
-1. The Sharder
-2. The Coordinator
-3. Advanced (MapReduce and stuff)
+### Scalability
+Building blocks for scaling reads, routing, and work distribution.
 
-## 4. Scalability
-Horizontal scaling and performance patterns
+- [Caches](./caches)
+- [Proxies](./proxies)
+- [Indexes](./indexes)
+- [Load Balancers](./load_balancers)
+- [Queues](./queues)
 
-1. Caches
-2. Proxies
-3. Indexes
-4. Load Balancers
-5. Queues
+### Advanced
+Larger distributed workflows and coordination-heavy systems.
+
+- [Sharder](./sharder)
+- [Coordinator](./coordinator)
+- [Advanced](./advanced)
+
+## Notes
+
+Each directory is a self-contained Go module with a `main.go` entrypoint and a short module-specific README.
